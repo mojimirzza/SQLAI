@@ -1,0 +1,39 @@
+# Sidecar Agent Configuration
+# All paths are relative to the sidecar/ directory or absolute
+
+paths:
+  memory_db: "../data/memory.db"          # Main project's SQLite memory
+  warehouse_db: "../data/bank.duckdb"     # Main project's DuckDB warehouse
+  semantic_layer: "../src/config/semantic_layer.yaml"
+  agent_state_db: "../data/agent_state.db" # Sidecar's own SQLite (writeable)
+  agent_alerts_db: "../data/agent_alerts.db" # Alert agent's SQLite (read-only)
+  reports_dir: "./reports"
+  trace_logs_dir: "../data/trace_logs"
+  situation_memory_db: "../data/situation_memory.db" # SML read-only consumption
+
+llm:
+  model: "openai/gpt-4o-mini"
+  temperature: 0.0
+  max_tokens: 2000
+
+thresholds:
+  gap_analyst:
+    min_confidence: 0.70
+    lookback_days: 7
+    min_query_count: 3
+  anomaly_investigator:
+    min_anomaly_severity: "medium"
+    max_drilldown_queries: 5
+    max_steps: 10
+    situation_memory_limit: 5
+    situation_memory_min_score: 0.60
+  followup_suggester:
+    max_suggestions: 3
+    min_result_rows: 1
+
+schedules:
+  gap_report: "0 0 * * *"  # Daily at midnight (cron expression)
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"

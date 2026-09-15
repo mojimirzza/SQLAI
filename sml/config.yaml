@@ -1,0 +1,4 @@
+window_seconds: 900
+correlation_threshold: 0.60
+lookback_minutes: 30
+batch_limit: 1000

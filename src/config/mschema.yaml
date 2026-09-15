@@ -1,0 +1,537 @@
+schema_version: '1.0'
+db_id: bank
+source:
+  path: data/bank.duckdb
+  real_samples_enabled: false
+  artifact_mode: metadata_baseline
+tables:
+  fact_transaction:
+    description: Central fact table for payment/transaction events. Fragmented by
+      date_in_sk quarterly.
+    columns:
+    - name: transaction_sk
+      type: SERIAL8
+      description: Transaction Sk
+      pk: ''
+      sample_values: []
+    - name: ser_pk
+      type: BIGINT
+      description: Ser Pk
+      pk: ''
+      sample_values: []
+    - name: trace
+      type: INTEGER
+      description: Trace
+      pk: ''
+      sample_values: []
+    - name: sys_trace
+      type: INTEGER
+      description: Sys Trace
+      pk: ''
+      sample_values: []
+    - name: sys_batch
+      type: INTEGER
+      description: Sys Batch
+      pk: ''
+      sample_values: []
+    - name: refnum
+      type: CHAR(15)
+      description: Refnum
+      pk: ''
+      sample_values: []
+    - name: otrace
+      type: INTEGER
+      description: Otrace
+      pk: ''
+      sample_values: []
+    - name: orefnum
+      type: CHAR(15)
+      description: Orefnum
+      pk: ''
+      sample_values: []
+    - name: msgno
+      type: INTEGER
+      description: Msgno
+      pk: ''
+      sample_values: []
+    - name: date_in_sk
+      type: INTEGER
+      description: Date In Sk
+      pk: ''
+      sample_values: []
+    - name: time_in_sk
+      type: INTEGER
+      description: Time In Sk
+      pk: ''
+      sample_values: []
+    - name: date_out_sk
+      type: INTEGER
+      description: Date Out Sk
+      pk: ''
+      sample_values: []
+    - name: time_out_sk
+      type: INTEGER
+      description: Time Out Sk
+      pk: ''
+      sample_values: []
+    - name: date_trans_sk
+      type: INTEGER
+      description: Date Trans Sk
+      pk: ''
+      sample_values: []
+    - name: time_trans_sk
+      type: INTEGER
+      description: Time Trans Sk
+      pk: ''
+      sample_values: []
+    - name: date_cap_sk
+      type: INTEGER
+      description: Date Cap Sk
+      pk: ''
+      sample_values: []
+    - name: date_stl_sk
+      type: INTEGER
+      description: Date Stl Sk
+      pk: ''
+      sample_values: []
+    - name: date_conv_sk
+      type: INTEGER
+      description: Date Conv Sk
+      pk: ''
+      sample_values: []
+    - name: date_abm_sk
+      type: INTEGER
+      description: Date Abm Sk
+      pk: ''
+      sample_values: []
+    - name: time_abm_sk
+      type: INTEGER
+      description: Time Abm Sk
+      pk: ''
+      sample_values: []
+    - name: date_otr_sk
+      type: INTEGER
+      description: Date Otr Sk
+      pk: ''
+      sample_values: []
+    - name: time_otr_sk
+      type: INTEGER
+      description: Time Otr Sk
+      pk: ''
+      sample_values: []
+    - name: date_odate_sk
+      type: INTEGER
+      description: Date Odate Sk
+      pk: ''
+      sample_values: []
+    - name: time_otime_sk
+      type: INTEGER
+      description: Time Otime Sk
+      pk: ''
+      sample_values: []
+    - name: status_sk
+      type: INTEGER
+      description: Status Sk
+      pk: ''
+      sample_values: []
+    - name: server_sk
+      type: INTEGER
+      description: Server Sk
+      pk: ''
+      sample_values: []
+    - name: terminal_sk
+      type: INTEGER
+      description: Terminal Sk
+      pk: ''
+      sample_values: []
+    - name: error_sk
+      type: INTEGER
+      description: Error Sk
+      pk: ''
+      sample_values: []
+    - name: txnamt
+      type: DECIMAL(18
+      description: Txnamt
+      pk: ''
+      sample_values: []
+    - name: switch_latency_ms
+      type: INTEGER
+      description: Switch Latency Ms
+      pk: ''
+      sample_values: []
+    - name: completion_latency_ms
+      type: INTEGER
+      description: Completion Latency Ms
+      pk: ''
+      sample_values: []
+    - name: is_approved
+      type: SMALLINT
+      description: Is Approved
+      pk: ''
+      sample_values: []
+    - name: is_stuck
+      type: SMALLINT
+      description: Is Stuck
+      pk: ''
+      sample_values: []
+    - name: is_reversed
+      type: SMALLINT
+      description: Is Reversed
+      pk: ''
+      sample_values: []
+    - name: is_offline
+      type: SMALLINT
+      description: Is Offline
+      pk: ''
+      sample_values: []
+    - name: is_hot_card
+      type: SMALLINT
+      description: Is Hot Card
+      pk: ''
+      sample_values: []
+    - name: has_error
+      type: SMALLINT
+      description: Has Error
+      pk: ''
+      sample_values: []
+    - name: terminal_risk_score
+      type: SMALLINT
+      description: Terminal Risk Score
+      pk: ''
+      sample_values: []
+  dim_date:
+    description: Date dimension. Natural key is date_sk as YYYYMMDD integer.
+    columns:
+    - name: date_sk
+      type: INTEGER
+      description: Date Sk
+      pk: ''
+      sample_values: []
+    - name: full_date
+      type: DATE
+      description: Full Date
+      pk: ''
+      sample_values: []
+    - name: year
+      type: SMALLINT
+      description: Year
+      pk: ''
+      sample_values: []
+    - name: quarter
+      type: SMALLINT
+      description: Quarter
+      pk: ''
+      sample_values: []
+    - name: month
+      type: SMALLINT
+      description: Month
+      pk: ''
+      sample_values: []
+    - name: month_name
+      type: VARCHAR(9)
+      description: Month Name
+      pk: ''
+      sample_values: []
+    - name: day_of_month
+      type: SMALLINT
+      description: Day Of Month
+      pk: ''
+      sample_values: []
+    - name: day_of_week
+      type: SMALLINT
+      description: Day Of Week
+      pk: ''
+      sample_values: []
+    - name: day_name
+      type: VARCHAR(9)
+      description: Day Name
+      pk: ''
+      sample_values: []
+    - name: week_of_year
+      type: SMALLINT
+      description: Week Of Year
+      pk: ''
+      sample_values: []
+    - name: is_weekend
+      type: SMALLINT
+      description: Is Weekend
+      pk: ''
+      sample_values: []
+    - name: is_holiday
+      type: SMALLINT
+      description: Is Holiday
+      pk: ''
+      sample_values: []
+    - name: holiday_name
+      type: VARCHAR(50)
+      description: Holiday Name
+      pk: ''
+      sample_values: []
+  dim_time:
+    description: Time dimension. Natural key is time_sk as seconds since midnight
+      (0-86399).
+    columns:
+    - name: time_sk
+      type: INTEGER
+      description: Time Sk
+      pk: ''
+      sample_values: []
+    - name: hour24
+      type: SMALLINT
+      description: Hour24
+      pk: ''
+      sample_values: []
+    - name: hour12
+      type: SMALLINT
+      description: Hour12
+      pk: ''
+      sample_values: []
+    - name: minute
+      type: SMALLINT
+      description: Minute
+      pk: ''
+      sample_values: []
+    - name: second
+      type: SMALLINT
+      description: Second
+      pk: ''
+      sample_values: []
+    - name: am_pm
+      type: CHAR(2)
+      description: Am Pm
+      pk: ''
+      sample_values: []
+    - name: time_of_day
+      type: VARCHAR(8)
+      description: Time Of Day
+      pk: ''
+      sample_values: []
+  dim_status:
+    description: 'Transaction status dimension. Composite natural key: status_code
+      + hot_flag + offline_flag + rev_flag.'
+    columns:
+    - name: status_sk
+      type: SERIAL
+      description: Status Sk
+      pk: ''
+      sample_values: []
+    - name: status_code
+      type: INTEGER
+      description: Status Code
+      pk: ''
+      sample_values: []
+    - name: hot_flag
+      type: SMALLINT
+      description: Hot Flag
+      pk: ''
+      sample_values: []
+    - name: offline_flag
+      type: SMALLINT
+      description: Offline Flag
+      pk: ''
+      sample_values: []
+    - name: rev_flag
+      type: SMALLINT
+      description: Rev Flag
+      pk: ''
+      sample_values: []
+    - name: lifecycle_stage
+      type: VARCHAR(20)
+      description: Lifecycle Stage
+      pk: ''
+      sample_values: []
+    - name: is_hot_card
+      type: SMALLINT
+      description: Is Hot Card
+      pk: ''
+      sample_values: []
+    - name: is_offline
+      type: SMALLINT
+      description: Is Offline
+      pk: ''
+      sample_values: []
+    - name: is_reversal
+      type: SMALLINT
+      description: Is Reversal
+      pk: ''
+      sample_values: []
+    - name: is_completed
+      type: SMALLINT
+      description: Is Completed
+      pk: ''
+      sample_values: []
+  dim_server:
+    description: Server dimension. Natural key is server_name.
+    columns:
+    - name: server_sk
+      type: SERIAL
+      description: Server Sk
+      pk: ''
+      sample_values: []
+    - name: server_name
+      type: VARCHAR(50)
+      description: Server Name
+      pk: ''
+      sample_values: []
+    - name: server_type
+      type: VARCHAR(20)
+      description: Server Type
+      pk: ''
+      sample_values: []
+    - name: location
+      type: VARCHAR(50)
+      description: Location
+      pk: ''
+      sample_values: []
+  dim_terminal:
+    description: Terminal/POS dimension. Composite natural key on device attributes.
+    columns:
+    - name: terminal_sk
+      type: SERIAL
+      description: Terminal Sk
+      pk: ''
+      sample_values: []
+    - name: devicetype
+      type: SMALLINT
+      description: Devicetype
+      pk: ''
+      sample_values: []
+    - name: pos_entry_mode
+      type: SMALLINT
+      description: Pos Entry Mode
+      pk: ''
+      sample_values: []
+    - name: pos_cond_code
+      type: SMALLINT
+      description: Pos Cond Code
+      pk: ''
+      sample_values: []
+    - name: pos_data_code
+      type: CHAR(12)
+      description: Pos Data Code
+      pk: ''
+      sample_values: []
+    - name: term_con_type
+      type: SMALLINT
+      description: Term Con Type
+      pk: ''
+      sample_values: []
+    - name: term_mac_use
+      type: SMALLINT
+      description: Term Mac Use
+      pk: ''
+      sample_values: []
+    - name: term_enc_type
+      type: SMALLINT
+      description: Term Enc Type
+      pk: ''
+      sample_values: []
+    - name: term_enc_meth
+      type: SMALLINT
+      description: Term Enc Meth
+      pk: ''
+      sample_values: []
+    - name: device_category
+      type: VARCHAR(20)
+      description: Device Category
+      pk: ''
+      sample_values: []
+    - name: entry_mode_desc
+      type: VARCHAR(20)
+      description: Entry Mode Desc
+      pk: ''
+      sample_values: []
+    - name: is_unknown_entry
+      type: SMALLINT
+      description: Is Unknown Entry
+      pk: ''
+      sample_values: []
+    - name: is_magstripe
+      type: SMALLINT
+      description: Is Magstripe
+      pk: ''
+      sample_values: []
+    - name: is_chip
+      type: SMALLINT
+      description: Is Chip
+      pk: ''
+      sample_values: []
+    - name: is_key_entry
+      type: SMALLINT
+      description: Is Key Entry
+      pk: ''
+      sample_values: []
+    - name: is_pan_auto
+      type: SMALLINT
+      description: Is Pan Auto
+      pk: ''
+      sample_values: []
+    - name: is_cnp
+      type: SMALLINT
+      description: Is Cnp
+      pk: ''
+      sample_values: []
+    - name: terminal_risk_score
+      type: SMALLINT
+      description: Terminal Risk Score
+      pk: ''
+      sample_values: []
+  dim_error:
+    description: 'Error dimension. Composite natural key: err_severity + err_indicator
+      + err_bitno + err_subbitno.'
+    columns:
+    - name: error_sk
+      type: SERIAL
+      description: Error Sk
+      pk: ''
+      sample_values: []
+    - name: err_severity
+      type: SMALLINT
+      description: Err Severity
+      pk: ''
+      sample_values: []
+    - name: err_indicator
+      type: SMALLINT
+      description: Err Indicator
+      pk: ''
+      sample_values: []
+    - name: err_bitno
+      type: SMALLINT
+      description: Err Bitno
+      pk: ''
+      sample_values: []
+    - name: err_subbitno
+      type: SMALLINT
+      description: Err Subbitno
+      pk: ''
+      sample_values: []
+    - name: error_description
+      type: VARCHAR(100)
+      description: Error Description
+      pk: ''
+      sample_values: []
+foreign_keys:
+- from_table: fact_transaction
+  from_column: date_in_sk
+  to_table: dim_date
+  to_column: date_sk
+- from_table: fact_transaction
+  from_column: time_in_sk
+  to_table: dim_time
+  to_column: time_sk
+- from_table: fact_transaction
+  from_column: server_sk
+  to_table: dim_server
+  to_column: server_sk
+- from_table: fact_transaction
+  from_column: terminal_sk
+  to_table: dim_terminal
+  to_column: terminal_sk
+- from_table: fact_transaction
+  from_column: status_sk
+  to_table: dim_status
+  to_column: status_sk
+- from_table: fact_transaction
+  from_column: error_sk
+  to_table: dim_error
+  to_column: error_sk

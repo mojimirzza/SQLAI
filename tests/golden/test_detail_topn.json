@@ -1,0 +1,42 @@
+[
+  {
+    "id": "D01",
+    "query": "Show me the top 15 highest-value transactions with their server, terminal, date and hour",
+    "category": "transaction_detail",
+    "query_type": "top_n_detail",
+    "entities": {
+      "detail_view": "transaction",
+      "detail_fields": ["transaction_id", "transaction_amount", "server_name", "terminal_sk", "hour24", "full_date"],
+      "order_by": {"field": "transaction_amount", "direction": "DESC"},
+      "limit": 15
+    },
+    "expected_sql_contains": [
+      "fact_transaction.txnamt AS transaction_amount",
+      "dim_server.server_name AS server_name",
+      "fact_transaction.terminal_sk AS terminal_sk",
+      "dim_time.hour24 AS hour24",
+      "dim_date.full_date AS full_date",
+      "ORDER BY fact_transaction.txnamt DESC",
+      "LIMIT 15"
+    ]
+  },
+  {
+    "id": "D02",
+    "query": "Top 20 highest-value transactions in the last 3 days by server and device category",
+    "category": "transaction_detail",
+    "query_type": "top_n_detail",
+    "entities": {
+      "detail_view": "transaction",
+      "detail_fields": ["transaction_id", "transaction_amount", "server_name", "device_category", "full_date", "hour24"],
+      "time_range": "last_3_days",
+      "order_by": {"field": "transaction_amount", "direction": "DESC"},
+      "limit": 20
+    },
+    "expected_sql_contains": [
+      "ORDER BY fact_transaction.txnamt DESC",
+      "LIMIT 20",
+      "fact_transaction.date_in_sk >="
+    ],
+    "expected_sql_not_contains": ["GROUP BY", "SUM(txnamt) AS transaction_amount"]
+  }
+]

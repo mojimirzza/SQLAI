@@ -1,0 +1,123 @@
+fact_transaction:
+  description: "Central fact table for payment/transaction events. Fragmented by date_in_sk quarterly."
+  columns:
+    - {name: transaction_sk, type: SERIAL8}
+    - {name: ser_pk, type: BIGINT}
+    - {name: trace, type: INTEGER}
+    - {name: sys_trace, type: INTEGER}
+    - {name: sys_batch, type: INTEGER}
+    - {name: refnum, type: CHAR(15)}
+    - {name: otrace, type: INTEGER}
+    - {name: orefnum, type: CHAR(15)}
+    - {name: msgno, type: INTEGER}
+    - {name: date_in_sk, type: INTEGER}
+    - {name: time_in_sk, type: INTEGER}
+    - {name: date_out_sk, type: INTEGER}
+    - {name: time_out_sk, type: INTEGER}
+    - {name: date_trans_sk, type: INTEGER}
+    - {name: time_trans_sk, type: INTEGER}
+    - {name: date_cap_sk, type: INTEGER}
+    - {name: date_stl_sk, type: INTEGER}
+    - {name: date_conv_sk, type: INTEGER}
+    - {name: date_abm_sk, type: INTEGER}
+    - {name: time_abm_sk, type: INTEGER}
+    - {name: date_otr_sk, type: INTEGER}
+    - {name: time_otr_sk, type: INTEGER}
+    - {name: date_odate_sk, type: INTEGER}
+    - {name: time_otime_sk, type: INTEGER}
+    - {name: status_sk, type: INTEGER}
+    - {name: server_sk, type: INTEGER}
+    - {name: terminal_sk, type: INTEGER}
+    - {name: error_sk, type: INTEGER}
+    - {name: txnamt, type: DECIMAL(18,2)}
+    - {name: switch_latency_ms, type: INTEGER}
+    - {name: completion_latency_ms, type: INTEGER}
+    - {name: is_approved, type: SMALLINT}
+    - {name: is_stuck, type: SMALLINT}
+    - {name: is_reversed, type: SMALLINT}
+    - {name: is_offline, type: SMALLINT}
+    - {name: is_hot_card, type: SMALLINT}
+    - {name: has_error, type: SMALLINT}
+    - {name: terminal_risk_score, type: SMALLINT}
+
+dim_date:
+  description: "Date dimension. Natural key is date_sk as YYYYMMDD integer."
+  columns:
+    - {name: date_sk, type: INTEGER}
+    - {name: full_date, type: DATE}
+    - {name: year, type: SMALLINT}
+    - {name: quarter, type: SMALLINT}
+    - {name: month, type: SMALLINT}
+    - {name: month_name, type: VARCHAR(9)}
+    - {name: day_of_month, type: SMALLINT}
+    - {name: day_of_week, type: SMALLINT}
+    - {name: day_name, type: VARCHAR(9)}
+    - {name: week_of_year, type: SMALLINT}
+    - {name: is_weekend, type: SMALLINT}
+    - {name: is_holiday, type: SMALLINT}
+    - {name: holiday_name, type: VARCHAR(50)}
+
+dim_time:
+  description: "Time dimension. Natural key is time_sk as seconds since midnight (0-86399)."
+  columns:
+    - {name: time_sk, type: INTEGER}
+    - {name: hour24, type: SMALLINT}
+    - {name: hour12, type: SMALLINT}
+    - {name: minute, type: SMALLINT}
+    - {name: second, type: SMALLINT}
+    - {name: am_pm, type: CHAR(2)}
+    - {name: time_of_day, type: VARCHAR(8)}
+
+dim_status:
+  description: "Transaction status dimension. Composite natural key: status_code + hot_flag + offline_flag + rev_flag."
+  columns:
+    - {name: status_sk, type: SERIAL}
+    - {name: status_code, type: INTEGER}
+    - {name: hot_flag, type: SMALLINT}
+    - {name: offline_flag, type: SMALLINT}
+    - {name: rev_flag, type: SMALLINT}
+    - {name: lifecycle_stage, type: VARCHAR(20)}
+    - {name: is_hot_card, type: SMALLINT}
+    - {name: is_offline, type: SMALLINT}
+    - {name: is_reversal, type: SMALLINT}
+    - {name: is_completed, type: SMALLINT}
+
+dim_server:
+  description: "Server dimension. Natural key is server_name."
+  columns:
+    - {name: server_sk, type: SERIAL}
+    - {name: server_name, type: VARCHAR(50)}
+    - {name: server_type, type: VARCHAR(20)}
+    - {name: location, type: VARCHAR(50)}
+
+dim_terminal:
+  description: "Terminal/POS dimension. Composite natural key on device attributes."
+  columns:
+    - {name: terminal_sk, type: SERIAL}
+    - {name: devicetype, type: SMALLINT}
+    - {name: pos_entry_mode, type: SMALLINT}
+    - {name: pos_cond_code, type: SMALLINT}
+    - {name: pos_data_code, type: CHAR(12)}
+    - {name: term_con_type, type: SMALLINT}
+    - {name: term_mac_use, type: SMALLINT}
+    - {name: term_enc_type, type: SMALLINT}
+    - {name: term_enc_meth, type: SMALLINT}
+    - {name: device_category, type: VARCHAR(20)}
+    - {name: entry_mode_desc, type: VARCHAR(20)}
+    - {name: is_unknown_entry, type: SMALLINT}
+    - {name: is_magstripe, type: SMALLINT}
+    - {name: is_chip, type: SMALLINT}
+    - {name: is_key_entry, type: SMALLINT}
+    - {name: is_pan_auto, type: SMALLINT}
+    - {name: is_cnp, type: SMALLINT}
+    - {name: terminal_risk_score, type: SMALLINT}
+
+dim_error:
+  description: "Error dimension. Composite natural key: err_severity + err_indicator + err_bitno + err_subbitno."
+  columns:
+    - {name: error_sk, type: SERIAL}
+    - {name: err_severity, type: SMALLINT}
+    - {name: err_indicator, type: SMALLINT}
+    - {name: err_bitno, type: SMALLINT}
+    - {name: err_subbitno, type: SMALLINT}
+    - {name: error_description, type: VARCHAR(100)}

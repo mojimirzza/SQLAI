@@ -1,0 +1,9 @@
+pii_allowed_roles: [admin, compliance, ops_manager]
+blocked_keywords: [DROP, DELETE, UPDATE, INSERT, TRUNCATE, ALTER, CREATE]
+max_rows_returned: 1000
+query_timeout_ms: 10000
+min_confidence: 0.70
+role_rules:
+  query: [admin, compliance, ops_manager, analyst, viewer]
+  memory_admin: [admin, compliance]
+protected_tables: []

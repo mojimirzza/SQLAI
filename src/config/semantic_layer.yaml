@@ -1,0 +1,220 @@
+metrics:
+  total_transactions:
+    sql_expression: "COUNT(*)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, status_sk, error_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+      - {table: dim_error, condition: "dim_error.error_sk = fact_transaction.error_sk", type: LEFT}
+    filters: []
+    description: "Total transaction count"
+
+  total_amount:
+    sql_expression: "SUM(txnamt)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, status_sk, error_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+      - {table: dim_error, condition: "dim_error.error_sk = fact_transaction.error_sk", type: LEFT}
+    filters: []
+    description: "Total transaction amount"
+
+  approval_rate:
+    sql_expression: "SUM(is_approved) * 100.0 / COUNT(*)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, status_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+    filters: []
+    description: "Approval rate percentage"
+
+  avg_switch_latency:
+    sql_expression: "AVG(switch_latency_ms)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, status_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+    filters: []
+    description: "Average switch latency in milliseconds"
+
+  stuck_transactions:
+    sql_expression: "SUM(is_stuck)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, status_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+    filters: []
+    description: "Count of stuck transactions"
+
+  hot_card_count:
+    sql_expression: "SUM(is_hot_card)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, status_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+    filters: []
+    description: "Count of hot card transactions"
+
+  error_count:
+    sql_expression: "SUM(has_error)"
+    table: fact_transaction
+    dimensions: [date_in_sk, time_in_sk, server_sk, terminal_sk, error_sk]
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_error, condition: "dim_error.error_sk = fact_transaction.error_sk", type: LEFT}
+    filters: []
+    description: "Count of transactions with errors"
+
+
+# Canonical semantic join graph used when an intent filter needs a dimension
+# that is not part of a metric's default join set. The generator may only
+# auto-add joins declared here; it never infers arbitrary SQL joins.
+join_graph:
+  - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+  - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+  - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+  - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+  - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+  - {table: dim_error, condition: "dim_error.error_sk = fact_transaction.error_sk", type: LEFT}
+
+# Query-shape capabilities are deliberately separate from business metrics.
+# Detail SQL is generated only from these allow-listed fields and joins.
+detail_views:
+  transaction:
+    table: fact_transaction
+    max_limit: 100
+    description: "Forensic transaction-level view for bounded detail and Top-N queries"
+    default_fields:
+      - transaction_id
+      - transaction_amount
+      - server_name
+      - terminal_sk
+      - device_category
+      - hour24
+      - full_date
+    fields:
+      transaction_id:
+        sql_expression: "fact_transaction.transaction_sk"
+        alias: transaction_id
+        description: "Transaction surrogate identifier"
+      trace:
+        sql_expression: "fact_transaction.trace"
+        alias: trace
+        description: "Transaction trace"
+      refnum:
+        sql_expression: "fact_transaction.refnum"
+        alias: refnum
+        description: "Reference number"
+      msgno:
+        sql_expression: "fact_transaction.msgno"
+        alias: msgno
+        description: "Message number"
+      transaction_amount:
+        sql_expression: "fact_transaction.txnamt"
+        alias: transaction_amount
+        description: "Individual transaction amount; not aggregated"
+      server_name:
+        sql_expression: "dim_server.server_name"
+        alias: server_name
+        description: "Server name"
+      server_type:
+        sql_expression: "dim_server.server_type"
+        alias: server_type
+        description: "Server type"
+      terminal_sk:
+        sql_expression: "fact_transaction.terminal_sk"
+        alias: terminal_sk
+        description: "Terminal surrogate identifier"
+      device_category:
+        sql_expression: "dim_terminal.device_category"
+        alias: device_category
+        description: "Device category"
+      terminal_risk_score:
+        sql_expression: "dim_terminal.terminal_risk_score"
+        alias: terminal_risk_score
+        description: "Terminal risk score carried on the transaction fact"
+      hour24:
+        sql_expression: "dim_time.hour24"
+        alias: hour24
+        description: "Hour of day, 0-23"
+      status_code:
+        sql_expression: "dim_status.status_code"
+        alias: status_code
+        description: "Transaction status code"
+      lifecycle_stage:
+        sql_expression: "dim_status.lifecycle_stage"
+        alias: lifecycle_stage
+        description: "Transaction lifecycle stage"
+      is_hot_card:
+        sql_expression: "fact_transaction.is_hot_card"
+        alias: is_hot_card
+        description: "Hot-card indicator"
+      err_severity:
+        sql_expression: "dim_error.err_severity"
+        alias: err_severity
+        description: "Error severity"
+      error_description:
+        sql_expression: "dim_error.error_description"
+        alias: error_description
+        description: "Error description"
+      full_date:
+        sql_expression: "dim_date.full_date"
+        alias: full_date
+        description: "Calendar date"
+    joins:
+      - {table: dim_date, condition: "dim_date.date_sk = fact_transaction.date_in_sk", type: INNER}
+      - {table: dim_time, condition: "dim_time.time_sk = fact_transaction.time_in_sk", type: INNER}
+      - {table: dim_server, condition: "dim_server.server_sk = fact_transaction.server_sk", type: INNER}
+      - {table: dim_terminal, condition: "dim_terminal.terminal_sk = fact_transaction.terminal_sk", type: LEFT}
+      - {table: dim_status, condition: "dim_status.status_sk = fact_transaction.status_sk", type: INNER}
+      - {table: dim_error, condition: "dim_error.error_sk = fact_transaction.error_sk", type: LEFT}
+
+# Canonical spellings for enum-like text values. Intent extraction is normalized
+# here before SQL literals are rendered, preserving index-friendly equality.
+canonical_values:
+  server_type: [Primary, Backup]
+  lifecycle_stage: [Completed, "Hot Card", Stuck, Offline, Reversal]
+  device_category: [ATM, POS, Mobile]
+  entry_mode_desc: [Magstripe, Chip, CNP]
+
+query_types:
+  aggregate:
+    enabled: true
+  detail:
+    enabled: true
+    requires_limit: true
+  top_n_detail:
+    enabled: true
+    requires_limit: true
+    requires_order_by: true
+  top_n_aggregate:
+    enabled: true
+    requires_limit: true
+    requires_order_by: true

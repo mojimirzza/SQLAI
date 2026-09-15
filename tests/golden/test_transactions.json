@@ -1,0 +1,58 @@
+[
+  {
+    "id": "G01",
+    "query": "تعداد کل تراکنش‌ها چقدر است؟",
+    "category": "total_transactions",
+    "entities": {},
+    "expected_sql_contains": ["COUNT(*) AS total_transactions", "FROM fact_transaction"]
+  },
+  {
+    "id": "G02",
+    "query": "تعداد تراکنش‌ها به تفکیک نام سرور چقدر است؟",
+    "category": "total_transactions",
+    "entities": {"dimensions": ["server_name"]},
+    "expected_sql_contains": ["dim_server.server_name", "INNER JOIN dim_server", "GROUP BY dim_server.server_name"]
+  },
+  {
+    "id": "G03",
+    "query": "مبلغ کل تراکنش‌ها به تفکیک سرور دیروز چقدر بوده است؟",
+    "category": "total_amount",
+    "entities": {"dimensions": ["server_name"], "time_range": "yesterday"},
+    "expected_sql_contains": ["SUM(txnamt) AS total_amount", "dim_server.server_name", "fact_transaction.date_in_sk >=", "GROUP BY dim_server.server_name"]
+  },
+  {
+    "id": "G04",
+    "query": "نرخ تایید به تفکیک نوع سرور چقدر است؟",
+    "category": "approval_rate",
+    "entities": {"dimensions": ["server_type"]},
+    "expected_sql_contains": ["SUM(is_approved) * 100.0 / COUNT(*) AS approval_rate", "dim_server.server_type", "INNER JOIN dim_server"]
+  },
+  {
+    "id": "G05",
+    "query": "میانگین تاخیر سوییچ برای سرورهای Primary چقدر است؟",
+    "category": "avg_switch_latency",
+    "entities": {"dimensions": ["server_name"], "server_type": "Primary"},
+    "expected_sql_contains": ["AVG(switch_latency_ms) AS avg_switch_latency", "dim_server.server_type = 'Primary'", "GROUP BY dim_server.server_name"]
+  },
+  {
+    "id": "G06",
+    "query": "تراکنش‌های گیرکرده این ماه چندتا بوده‌اند؟",
+    "category": "stuck_transactions",
+    "entities": {"time_range": "this_month"},
+    "expected_sql_contains": ["SUM(is_stuck) AS stuck_transactions", "fact_transaction.date_in_sk >=", "fact_transaction.date_in_sk <"]
+  },
+  {
+    "id": "G07",
+    "query": "تعداد تراکنش‌های کارت داغ به تفکیک دسته دستگاه چقدر است؟",
+    "category": "hot_card_count",
+    "entities": {"dimensions": ["device_category"]},
+    "expected_sql_contains": ["SUM(is_hot_card) AS hot_card_count", "LEFT JOIN dim_terminal", "dim_terminal.device_category"]
+  },
+  {
+    "id": "G08",
+    "query": "تعداد خطاها به تفکیک شرح خطا چقدر است؟",
+    "category": "error_count",
+    "entities": {"dimensions": ["error_description"]},
+    "expected_sql_contains": ["SUM(has_error) AS error_count", "LEFT JOIN dim_error", "dim_error.error_description"]
+  }
+]

@@ -1,0 +1,249 @@
+{
+  "evaluation_version": "1.0",
+  "scenarios": 5,
+  "memory": {
+    "success_rate": 1.0,
+    "target_hit_rate": 1.0,
+    "targeted_first_rate": 1.0,
+    "mean_drilldowns": 1.0
+  },
+  "control": {
+    "success_rate": 1.0,
+    "target_hit_rate": 1.0,
+    "targeted_first_rate": 0.0,
+    "mean_drilldowns": 2.0
+  },
+  "delta": {
+    "mean_drilldowns": 1.0,
+    "targeted_first_pp": 100.0
+  },
+  "decision": "PASS",
+  "interpretation": "Synthetic deterministic A/B gate; not an LLM quality or production-capacity claim.",
+  "cases": [
+    {
+      "treatment": "memory",
+      "scenario": "mellat_auth",
+      "success": true,
+      "drilldowns": 1,
+      "target_hit": true,
+      "targeted_first": true,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Historical Situation evidence points to a previously recurring server; verify it independently."
+        },
+        {
+          "iteration_no": 2,
+          "action": "finish",
+          "reason": "The targeted server query verified the historical lead."
+        }
+      ]
+    },
+    {
+      "treatment": "control",
+      "scenario": "mellat_auth",
+      "success": true,
+      "drilldowns": 2,
+      "target_hit": true,
+      "targeted_first": false,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Start with a broad error distribution drill-down without historical Situation memory."
+        },
+        {
+          "iteration_no": 2,
+          "action": "query_warehouse",
+          "reason": "Use the prior observation to narrow to the affected server."
+        },
+        {
+          "iteration_no": 3,
+          "action": "finish",
+          "reason": "The broad and targeted queries agree."
+        }
+      ]
+    },
+    {
+      "treatment": "memory",
+      "scenario": "mellat_latency",
+      "success": true,
+      "drilldowns": 1,
+      "target_hit": true,
+      "targeted_first": true,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Historical Situation evidence points to a previously recurring server; verify it independently."
+        },
+        {
+          "iteration_no": 2,
+          "action": "finish",
+          "reason": "The targeted server query verified the historical lead."
+        }
+      ]
+    },
+    {
+      "treatment": "control",
+      "scenario": "mellat_latency",
+      "success": true,
+      "drilldowns": 2,
+      "target_hit": true,
+      "targeted_first": false,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Start with a broad error distribution drill-down without historical Situation memory."
+        },
+        {
+          "iteration_no": 2,
+          "action": "query_warehouse",
+          "reason": "Use the prior observation to narrow to the affected server."
+        },
+        {
+          "iteration_no": 3,
+          "action": "finish",
+          "reason": "The broad and targeted queries agree."
+        }
+      ]
+    },
+    {
+      "treatment": "memory",
+      "scenario": "tejarat_auth",
+      "success": true,
+      "drilldowns": 1,
+      "target_hit": true,
+      "targeted_first": true,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Historical Situation evidence points to a previously recurring server; verify it independently."
+        },
+        {
+          "iteration_no": 2,
+          "action": "finish",
+          "reason": "The targeted server query verified the historical lead."
+        }
+      ]
+    },
+    {
+      "treatment": "control",
+      "scenario": "tejarat_auth",
+      "success": true,
+      "drilldowns": 2,
+      "target_hit": true,
+      "targeted_first": false,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Start with a broad error distribution drill-down without historical Situation memory."
+        },
+        {
+          "iteration_no": 2,
+          "action": "query_warehouse",
+          "reason": "Use the prior observation to narrow to the affected server."
+        },
+        {
+          "iteration_no": 3,
+          "action": "finish",
+          "reason": "The broad and targeted queries agree."
+        }
+      ]
+    },
+    {
+      "treatment": "memory",
+      "scenario": "saman_timeout",
+      "success": true,
+      "drilldowns": 1,
+      "target_hit": true,
+      "targeted_first": true,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Historical Situation evidence points to a previously recurring server; verify it independently."
+        },
+        {
+          "iteration_no": 2,
+          "action": "finish",
+          "reason": "The targeted server query verified the historical lead."
+        }
+      ]
+    },
+    {
+      "treatment": "control",
+      "scenario": "saman_timeout",
+      "success": true,
+      "drilldowns": 2,
+      "target_hit": true,
+      "targeted_first": false,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Start with a broad error distribution drill-down without historical Situation memory."
+        },
+        {
+          "iteration_no": 2,
+          "action": "query_warehouse",
+          "reason": "Use the prior observation to narrow to the affected server."
+        },
+        {
+          "iteration_no": 3,
+          "action": "finish",
+          "reason": "The broad and targeted queries agree."
+        }
+      ]
+    },
+    {
+      "treatment": "memory",
+      "scenario": "mellat_reversal",
+      "success": true,
+      "drilldowns": 1,
+      "target_hit": true,
+      "targeted_first": true,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Historical Situation evidence points to a previously recurring server; verify it independently."
+        },
+        {
+          "iteration_no": 2,
+          "action": "finish",
+          "reason": "The targeted server query verified the historical lead."
+        }
+      ]
+    },
+    {
+      "treatment": "control",
+      "scenario": "mellat_reversal",
+      "success": true,
+      "drilldowns": 2,
+      "target_hit": true,
+      "targeted_first": false,
+      "trace": [
+        {
+          "iteration_no": 1,
+          "action": "query_warehouse",
+          "reason": "Start with a broad error distribution drill-down without historical Situation memory."
+        },
+        {
+          "iteration_no": 2,
+          "action": "query_warehouse",
+          "reason": "Use the prior observation to narrow to the affected server."
+        },
+        {
+          "iteration_no": 3,
+          "action": "finish",
+          "reason": "The broad and targeted queries agree."
+        }
+      ]
+    }
+  ]
+}
